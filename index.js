@@ -1,28 +1,14 @@
-function reorderList(head) {
-  if (!head || !head.next) return;
-  let slow = head;
-  let fast = head;
-  while (fast.next && fast.next.next) {
-    slow = slow.next;
-    fast = fast.next.next;
+function wordBreak(s, wordDict) {
+  const set = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+  for (let end = 1; end <= s.length; end++) {
+    for (let start = 0; start < end; start++) {
+      if (dp[start] && set.has(s.substring(start, end))) {
+        dp[end] = true;
+        break;
+      }
+    }
   }
-  let prev = null;
-  let curr = slow.next;
-  slow.next = null;
-  while (curr) {
-    const next = curr.next;
-    curr.next = prev;
-    prev = curr;
-    curr = next;
-  }
-  let first = head;
-  let second = prev;
-  while (second) {
-    const nextFirst = first.next;
-    const nextSecond = second.next;
-    first.next = second;
-    second.next = nextFirst;
-    first = nextFirst;
-    second = nextSecond;
-  }
+  return dp[s.length];
 }
