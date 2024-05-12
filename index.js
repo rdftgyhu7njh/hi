@@ -1,14 +1,17 @@
-function wordBreak(s, wordDict) {
-  const set = new Set(wordDict);
-  const dp = new Array(s.length + 1).fill(false);
-  dp[0] = true;
-  for (let end = 1; end <= s.length; end++) {
-    for (let start = 0; start < end; start++) {
-      if (dp[start] && set.has(s.substring(start, end))) {
-        dp[end] = true;
-        break;
-      }
+function allPathsSourceTarget(graph) {
+  const result = [];
+  const target = graph.length - 1;
+  dfs(graph, 0, [0]);
+  function dfs(graph, node, path) {
+    if (node === target) {
+      result.push([...path]);
+      return;
+    }
+    for (const neighbor of graph[node]) {
+      path.push(neighbor);
+      dfs(graph, neighbor, path);
+      path.pop();
     }
   }
-  return dp[s.length];
+  return result;
 }
