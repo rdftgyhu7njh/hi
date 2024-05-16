@@ -1,12 +1,11 @@
-function insertionSort(arr) {
-  for (let i = 1; i < arr.length; i++) {
-    let key = arr[i];
-    let j = i - 1;
-    while (j >= 0 && arr[j] > key) {
-      arr[j + 1] = arr[j];
-      j--;
-    }
-    arr[j + 1] = key;
+function isValidBST(root) {
+  return isValid(root, null, null);
+  function isValid(node, min, max) {
+    if (!node) return true;
+    if ((min !== null && node.val <= min) || (max !== null && node.val >= max))
+      return false;
+    return (
+      isValid(node.left, min, node.val) && isValid(node.right, node.val, max)
+    );
   }
-  return arr;
 }
